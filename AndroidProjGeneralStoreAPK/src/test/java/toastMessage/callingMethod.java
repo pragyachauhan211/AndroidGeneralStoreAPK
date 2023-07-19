@@ -1,4 +1,4 @@
-package basicWorkFlow;
+package toastMessage;
 
 public class callingMethod {
 
@@ -6,8 +6,8 @@ public class callingMethod {
 		
 		baseClass baseClass = new baseClass();
 		baseClass.capabilities();
-		workFlow flow = new workFlow();
-		flow.enterName();
+		toastMessage flow = new toastMessage();
+		flow.toastDisplay();
 		       
 	}
 
