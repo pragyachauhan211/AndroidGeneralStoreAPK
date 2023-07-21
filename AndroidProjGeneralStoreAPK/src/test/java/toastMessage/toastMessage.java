@@ -1,8 +1,6 @@
 package toastMessage;
 
-import java.sql.Driver;
 import org.openqa.selenium.By;
-import io.appium.java_client.AppiumBy;
 
 public class toastMessage extends baseClass{
 
@@ -28,10 +26,10 @@ public class toastMessage extends baseClass{
 		String toastMessageString = androidDriver.findElement(By.xpath("(//android.widget.Toast)[1]")).getAttribute("name"); // for extracting toast
 			System.out.println(toastMessageString);																						// message we use
 																									// this with index
-																									// value instead of
-																							// using getText()
+																									// value instead of														// using getText()
 																									// method
 		Thread.sleep(5000);
+		
 		
 	}
 	
