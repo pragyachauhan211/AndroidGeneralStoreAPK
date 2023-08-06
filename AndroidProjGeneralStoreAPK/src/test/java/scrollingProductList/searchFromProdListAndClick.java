@@ -1,15 +1,17 @@
 package scrollingProductList;
 
-import java.time.Duration;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import basicWorkFlow.baseClass;
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.functions.ExpectedCondition;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.remote.SupportsContextSwitching;
 
 public class searchFromProdListAndClick extends baseClass{
 
@@ -20,6 +22,11 @@ public class searchFromProdListAndClick extends baseClass{
 	
 	dynamicElementScroll obj = new dynamicElementScroll();
 	getExplicitWait explicitObj = new getExplicitWait();
+	getSumOfPriceOfProd sumObj = new getSumOfPriceOfProd();
+	longPressOnTermsCondi longPrObj = new longPressOnTermsCondi();
+	getContext contextObj = new getContext();
+	
+	String nameString;
 	
 	public void scrollProdList() throws InterruptedException
 	{
@@ -65,18 +72,55 @@ public class searchFromProdListAndClick extends baseClass{
 		
 		Thread.sleep(1000);
 		
-		// click on add card to add into cart list		
-		obj.iterateProd();
+		List<WebElement> addCart = androidDriver.findElements(By.id("com.androidsample.generalstore:id/productAddCart"));
+		
+		List<WebElement> prodNameList =	 androidDriver.findElements(By.id("com.androidsample.generalstore:id/productName"));
+		
+		nameString = "Jordan 6 Rings";
+		
+		obj.iterateProd(addCart, prodNameList, nameString); // click on AddCart of this product
+		
+		Thread.sleep(1000);
+		
+		nameString = "Jordan Lift Off";
+		
+		obj.iterateProd(addCart, prodNameList, nameString); // click on AddCart of this product
 		
 		Thread.sleep(1000);
 		
 		// click on add cart icon to view your selected product into the queue in CART screen
 		androidDriver.findElement(By.id("com.androidsample.generalstore:id/appbar_btn_cart")).click();
 
+		Thread.sleep(1000);
+		
 		// get cart screen name title
-		explicitObj.explicit();
+		explicitObj.explicit();		
 		
+		sumObj.sumPrice(); // get total sum of price of all products from add card screen
 		
+		Thread.sleep(1000);
+		
+		longPrObj.longPr(); // long press on terms and condition option
+		Thread.sleep(1000);
+		androidDriver.findElement(By.id("android:id/button1")).click(); // click on close button of
+		                                                                // terms and condition
+		Thread.sleep(1000);
+		androidDriver.findElement(AppiumBy.className("android.widget.CheckBox")).click(); // tick on checkbox
+		Thread.sleep(1000);
+		androidDriver.findElement(AppiumBy.className("android.widget.Button")).click(); // click on button
+		Thread.sleep(5000);
+		
+		contextObj.contextToWeb(); // switch to web context
+
+		Thread.sleep(2000);
+		androidDriver.findElement(By.name("q")).sendKeys("Pragya"); // enter pragya on hybrid chrome google search bar
+		
+		//androidDriver.findElement(By.xpath("//*[@id='APjFqb']")).sendKeys("Pragya"); // enter pragya on hybrid chrome google search bar
+		Thread.sleep(1000);
+		androidDriver.findElement(By.name("q")).sendKeys(Keys.ENTER); // press enter
+		androidDriver.pressKey(new KeyEvent(AndroidKey.BACK)); // go back to your previous latest native screen
+		
+		contextObj.contextToNative(); // switch to native context
 	}
 
 	public static void main(String[] args) throws Exception {
